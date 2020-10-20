@@ -22,14 +22,14 @@
 <meta property="og:image" content="https://zkydrx.github.io/2020/10/19/2020-10-19-git-branch-manage-work-flow/2020101901.png">
 <meta property="og:image" content="https://zkydrx.github.io/2020/10/19/2020-10-19-git-branch-manage-work-flow/2020101902.png">
 <meta property="article:published_time" content="2020-10-19T10:02:30.000Z">
-<meta property="article:modified_time" content="2020-10-20T03:33:38.304Z">
+<meta property="article:modified_time" content="2020-10-20T03:37:17.528Z">
 <meta property="article:author" content="zkygit">
 <meta property="article:tag" content="Git">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://zkydrx.github.io/2020/10/19/2020-10-19-git-branch-manage-work-flow/2020101901.png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css?v=233" crossorigin>
   
-  <link rel="stylesheet" href="/css/style.css?v=1603164827142">
+  <link rel="stylesheet" href="/css/style.css?v=1603165052594">
 <meta name="generator" content="Hexo 5.2.0"></head>
 
 <body class="mdui-drawer-body-left">
@@ -162,7 +162,7 @@
     <h1 id="git分支管理和工作流规范"><a href="#git分支管理和工作流规范" class="headerlink" title="git分支管理和工作流规范"></a>git分支管理和工作流规范</h1><hr>
 <a id="more"></a>
 <p>本篇介绍具体的规范，包括分支的划分和命名规范，不同类型的分支应对不同的场景，然后会介绍下工作流工具git-flow，如何简化我们的操作。</p>
-<h3 id="分支构成"><a href="#分支构成" class="headerlink" title="分支构成"></a>分支构成</h3><p>master和develop分支一直存在，且名称不会变化，一般不直接修改这2个分支，由其他分支合并而来。<br>feature、release、hotfix分别用于功能点开发、优化，特定版本测试，线上问题紧急处理，同一类型的分支会产生多个。<br>分支划分如下：</p>
+<h2 id="分支构成"><a href="#分支构成" class="headerlink" title="分支构成"></a>分支构成</h2><p>master和develop分支一直存在，且名称不会变化，一般不直接修改这2个分支，由其他分支合并而来。<br>feature、release、hotfix分别用于功能点开发、优化，特定版本测试，线上问题紧急处理，同一类型的分支会产生多个。<br>分支划分如下：</p>
 <ul>
 <li>master：与线上版本保持绝对一致；</li>
 <li>develop：开发分支，由下文提到的release、feature、hotfix分支合并过后的代码；</li>
@@ -177,12 +177,12 @@
 <li>hotfix分支命名：hotfix/name</li>
 </ul>
 <p>比如有一个「优化分布式Session」的需求，可在develop分支的基础上创建新分支 feature/optimize_distributed_session进行开发，开发完成后合并到develop分支。</p>
-<h3 id="分支详细介绍和处理流程"><a href="#分支详细介绍和处理流程" class="headerlink" title="分支详细介绍和处理流程"></a>分支详细介绍和处理流程</h3><h4 id="master分支"><a href="#master分支" class="headerlink" title="master分支"></a>master分支</h4><p>主分支，与线上运行的版本始终保持一致，任何时候都不要直接修改master分支。<br>一个版本的release分支、hotfix分支开发完成后，会合并代码到master分支，也就是说master分支主要来源于release分支和hotfix分支。</p>
-<h4 id="develop分支"><a href="#develop分支" class="headerlink" title="develop分支"></a>develop分支</h4><p>开发分支，始终保持最新完成以及bug修复后的代码，新增功能时基于该分支创建feature分支。<br>一个版本的release分支、hotfix分支开发完成后，也会合并到develop分支，另外，一个版本的feature功能开发完成后，也会合并到develop分支。也就是说develop分支来源于feature、release、hotfix分支。</p>
-<h4 id="feature分支"><a href="#feature分支" class="headerlink" title="feature分支"></a>feature分支</h4><p>开发新功能或优化现有功能时，会创建feature分支，以develop为基础创建。一般会有多个功能同时开发，但上线时间可能不同，在适当的时候将特定的feature分支合并到develop分支，并创建release分支，进入测试状态。</p>
-<h4 id="release分支"><a href="#release分支" class="headerlink" title="release分支"></a>release分支</h4><p>当一组feature开发完成，会首先合并到develop分支，开始进入提测阶段时，会创建release分支。<br>以release分支代码为基准提测，测试过程中若存在bug需要修复，则直接由开发者在release分支修复并提交。<br>测试完成之后，合并release分支到master和develop分支，此时master为最新代码，用作上线。</p>
-<h4 id="hotfix分支"><a href="#hotfix分支" class="headerlink" title="hotfix分支"></a>hotfix分支</h4><p>线上出现紧急问题时，需要及时修复，以master分支为基线，创建hotfix分支，修复完成后，需要合并到master分支和develop分支。</p>
-<h3 id="特殊情况处理和注意点"><a href="#特殊情况处理和注意点" class="headerlink" title="特殊情况处理和注意点"></a>特殊情况处理和注意点</h3><p>develop分支已存在未上线的feature代码, 此时需要紧急上线一个新功能, 但develop的代码不能上，如何处理 ？</p>
+<h2 id="分支详细介绍和处理流程"><a href="#分支详细介绍和处理流程" class="headerlink" title="分支详细介绍和处理流程"></a>分支详细介绍和处理流程</h2><h3 id="master分支"><a href="#master分支" class="headerlink" title="master分支"></a>master分支</h3><p>主分支，与线上运行的版本始终保持一致，任何时候都不要直接修改master分支。<br>一个版本的release分支、hotfix分支开发完成后，会合并代码到master分支，也就是说master分支主要来源于release分支和hotfix分支。</p>
+<h3 id="develop分支"><a href="#develop分支" class="headerlink" title="develop分支"></a>develop分支</h3><p>开发分支，始终保持最新完成以及bug修复后的代码，新增功能时基于该分支创建feature分支。<br>一个版本的release分支、hotfix分支开发完成后，也会合并到develop分支，另外，一个版本的feature功能开发完成后，也会合并到develop分支。也就是说develop分支来源于feature、release、hotfix分支。</p>
+<h3 id="feature分支"><a href="#feature分支" class="headerlink" title="feature分支"></a>feature分支</h3><p>开发新功能或优化现有功能时，会创建feature分支，以develop为基础创建。一般会有多个功能同时开发，但上线时间可能不同，在适当的时候将特定的feature分支合并到develop分支，并创建release分支，进入测试状态。</p>
+<h3 id="release分支"><a href="#release分支" class="headerlink" title="release分支"></a>release分支</h3><p>当一组feature开发完成，会首先合并到develop分支，开始进入提测阶段时，会创建release分支。<br>以release分支代码为基准提测，测试过程中若存在bug需要修复，则直接由开发者在release分支修复并提交。<br>测试完成之后，合并release分支到master和develop分支，此时master为最新代码，用作上线。</p>
+<h3 id="hotfix分支"><a href="#hotfix分支" class="headerlink" title="hotfix分支"></a>hotfix分支</h3><p>线上出现紧急问题时，需要及时修复，以master分支为基线，创建hotfix分支，修复完成后，需要合并到master分支和develop分支。</p>
+<h2 id="特殊情况处理和注意点"><a href="#特殊情况处理和注意点" class="headerlink" title="特殊情况处理和注意点"></a>特殊情况处理和注意点</h2><p>develop分支已存在未上线的feature代码, 此时需要紧急上线一个新功能, 但develop的代码不能上，如何处理 ？</p>
 <ul>
 <li>以master为基线创建feature， 在完成之后，代码合并到master分支；</li>
 <li>为了保证develop是最新代码，需要从master合并到develop分支；</li>
@@ -198,15 +198,15 @@
 <li>如果关联jira，写上jira地址；</li>
 </ul>
 <img src="/2020/10/19/2020-10-19-git-branch-manage-work-flow/2020101901.png" class="">
-<h3 id="git-flow工具"><a href="#git-flow工具" class="headerlink" title="git-flow工具"></a>git-flow工具</h3><p>上面的流程在第一次接触时，会觉得有点复杂，通过git-flow工具可以把这些流程自动化。它是一个命令行工具，支持各个平台，比如OSX、Linux、Windows等支持。</p>
-<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p>通过 git flow init 命令进行初始化，以交互式的方式进行，主要是约定分支的命名，建议使用默认值；</p>
-<h4 id="开发新功能"><a href="#开发新功能" class="headerlink" title="开发新功能"></a>开发新功能</h4><p>git flow feature start f1 添加新特性，这个操作创建了一个基于develop的特性分支，并切换到这个分支之下。<br>git flow feature finish f1 完成新特性，这个操作会合并f1分支到develop分支，并删除特性分支，切换回develop分支。<br>git flow feature publish f1 发布新分支，发布新特性分支到远程服务器，其它用户也可以使用这分支。</p>
-<h4 id="发布版本"><a href="#发布版本" class="headerlink" title="发布版本"></a>发布版本</h4><p>git flow release start r1 [BASE] 创建发布版本，[BASE]是以哪个分支或commit为基础进行发版，一般为develop。<br>git flow release publish r1 发布release分支，其他同事就可以看到这个分支，并修改一些小问题。<br>git flow release finish r1 完成release分支，会合并release分支到master分支，用release分支名打Tag，合并release分支到 develop分支，最后移除release分支。</p>
-<h4 id="修复线上问题"><a href="#修复线上问题" class="headerlink" title="修复线上问题"></a>修复线上问题</h4><p>有可能需要修正 master 分支上某个 TAG 标记的生产版本。<br>git flow hotfix start VERSION [BASENAME] 创建hotfix分支，VERSION 参数标记着修正版本，[BASENAME]为finish release时填写的版本号。<br>git flow hotfix finish VERSION，当完成紧急修复分支，代码合并到develop和 master分支。相应地，master分支打上修正版本的 TAG。</p>
+<h2 id="git-flow工具"><a href="#git-flow工具" class="headerlink" title="git-flow工具"></a>git-flow工具</h2><p>上面的流程在第一次接触时，会觉得有点复杂，通过git-flow工具可以把这些流程自动化。它是一个命令行工具，支持各个平台，比如OSX、Linux、Windows等支持。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>通过 git flow init 命令进行初始化，以交互式的方式进行，主要是约定分支的命名，建议使用默认值；</p>
+<h3 id="开发新功能"><a href="#开发新功能" class="headerlink" title="开发新功能"></a>开发新功能</h3><p>git flow feature start f1 添加新特性，这个操作创建了一个基于develop的特性分支，并切换到这个分支之下。<br>git flow feature finish f1 完成新特性，这个操作会合并f1分支到develop分支，并删除特性分支，切换回develop分支。<br>git flow feature publish f1 发布新分支，发布新特性分支到远程服务器，其它用户也可以使用这分支。</p>
+<h3 id="发布版本"><a href="#发布版本" class="headerlink" title="发布版本"></a>发布版本</h3><p>git flow release start r1 [BASE] 创建发布版本，[BASE]是以哪个分支或commit为基础进行发版，一般为develop。<br>git flow release publish r1 发布release分支，其他同事就可以看到这个分支，并修改一些小问题。<br>git flow release finish r1 完成release分支，会合并release分支到master分支，用release分支名打Tag，合并release分支到 develop分支，最后移除release分支。</p>
+<h3 id="修复线上问题"><a href="#修复线上问题" class="headerlink" title="修复线上问题"></a>修复线上问题</h3><p>有可能需要修正 master 分支上某个 TAG 标记的生产版本。<br>git flow hotfix start VERSION [BASENAME] 创建hotfix分支，VERSION 参数标记着修正版本，[BASENAME]为finish release时填写的版本号。<br>git flow hotfix finish VERSION，当完成紧急修复分支，代码合并到develop和 master分支。相应地，master分支打上修正版本的 TAG。</p>
 <img src="/2020/10/19/2020-10-19-git-branch-manage-work-flow/2020101902.png" class="">
 
 
-<h4 id="关于系统版本号的问题"><a href="#关于系统版本号的问题" class="headerlink" title="关于系统版本号的问题"></a>关于系统版本号的问题</h4><ul>
+<h2 id="关于系统版本号的问题"><a href="#关于系统版本号的问题" class="headerlink" title="关于系统版本号的问题"></a>关于系统版本号的问题</h2><ul>
 <li>版本号的格式： X.Y.Z</li>
 <li>递增的规则为：<ul>
 <li>X 表示主版本号，当 API 的兼容性变化时，X 需递增。</li>
@@ -266,7 +266,7 @@
     <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
 
 
-<script src="/js/app.js?v=1603164827143"></script>
+<script src="/js/app.js?v=1603165052596"></script>
   
     <!-- Google Analytics -->
 <script>
